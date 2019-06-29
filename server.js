@@ -28,27 +28,26 @@ server.use(session({
 server.context.db = require('./libs/database');
 server.context.config = config;
 //渲染
-ejs(server, {
-  root: path.resolve(__dirname, 'template'),
-  layout: false,
-  viewExt: 'ejs',
-  cache: false,
-  debug: false
-});
+// ejs(server, {
+//   root: path.resolve(__dirname, 'template'),
+//   layout: false,
+//   viewExt: 'ejs',
+//   cache: false,
+//   debug: false
+// });
 
 //路由和static
 let router = new Router();
 
 //统一处理
-/*router.use(async (ctx, next)=>{
+router.use(async (ctx, next)=>{
   try{
     await next();
   }catch(e){
     ctx.throw(500, 'Internal Server Error');
-
     console.log(e);
   }
-});*/
+});
 
 
 router.use('/admin', require('./routers/admin'));

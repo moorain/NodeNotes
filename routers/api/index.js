@@ -27,6 +27,8 @@ router.post('/share/add', async ctx => {
 });
 
 router.get('/share/list', async ctx => {
+    console.log(111111111)
+        // ctx.set('Access-Control-Allow-Origin','*')
         let datas = await ctx.db.query(`SELECT * FROM share WHERE isdel=?`, [1])
         if (datas) {
             ctx.body = {
