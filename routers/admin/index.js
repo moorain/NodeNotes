@@ -14,12 +14,12 @@ function findAdmin(admins, username) {
   return a;
 }
 
-// router.get('/login', async ctx => {
-//   await ctx.render('admin/login', {
-//     HTTP_ROOT: ctx.config.HTTP_ROOT,
-//     errmsg: ctx.query.errmsg
-//   });
-// });
+router.get('/login', async ctx => {
+  await ctx.render('admin/login', {
+    HTTP_ROOT: ctx.config.HTTP_ROOT,
+    errmsg: ctx.query.errmsg
+  });
+});
 
 router.post('/login', async ctx => {
   // const { HTTP_ROOT } = ctx.config
@@ -69,18 +69,18 @@ router.all('*', async (ctx, next) => {
 
 // INSERT INTO `share`(`url`, `title`) VALUES ("www.baidu.com","百度")
 
-// router.get('/banner', async ctx => {
-//   const { HTTP_ROOT } = ctx.config
+router.get('/banner', async ctx => {
+  const { HTTP_ROOT } = ctx.config
 
-//   let datas = await ctx.db.query(`SELECT * FROM ${table}`);
-//   await ctx.render('admin/table', {
-//     fields,
-//     action: `${HTTP_ROOT}/admin/banner`,
-//     type: 'view',
-//     HTTP_ROOT,
-//     datas,
-//   })
-// });
+  let datas = await ctx.db.query(`SELECT * FROM ${table}`);
+  await ctx.render('admin/table', {
+    fields,
+    action: `${HTTP_ROOT}/admin/banner`,
+    type: 'view',
+    HTTP_ROOT,
+    datas,
+  })
+});
 
 //接受提交
 // router.post('/banner', async ctx => {
