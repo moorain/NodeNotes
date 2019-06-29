@@ -6,7 +6,7 @@ module.exports = {
   DB_PASS: 'qu1062254476',
   DB_NAME: 'moorainx_myData',
   ADMIN_PREFIX: '_?:L$"OPUIOSIFJ(*UPT:LKRFG',
-  HTTP_ROOT: 'http://localhost:80',
-  PORT: 80,
+  HTTP_ROOT: 'http://localhost:8080',
+  PORT: 8080,
   UPLOAD_DIR:  path.resolve(__dirname, './static/upload')
 };
