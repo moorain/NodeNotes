@@ -3,7 +3,7 @@ module.exports = {
   DB_HOST: 'localhost',
   // DB_USER: 'root',
   DB_USER: 'moorainx_test',
-  DB_PASS: 'qu1062254476',
+  DB_PASS: 'QuXin1062254476',
   DB_NAME: 'moorainx_myData',
   ADMIN_PREFIX: '_?:L$"OPUIOSIFJ(*UPT:LKRFG',
   HTTP_ROOT: 'http://localhost:8080',
