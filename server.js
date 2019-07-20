@@ -37,12 +37,11 @@ router.use(async (ctx, next)=>{
     await next();
   }catch(e){
     ctx.throw(500, 'Internal Server Error');
-    console.log(e);
   }
 });
 
 
-// router.use('/admin', require('./routers/admin'));
+router.use('/admin', require('./routers/admin'));
 router.use('/api', require('./routers/api'));
 router.use('', require('./routers/www'));
 static(router);

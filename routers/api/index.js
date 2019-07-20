@@ -1,11 +1,11 @@
 const Router = require('koa-router');
 let router = new Router();
+var URL = require('url');
 const SUCCESS_CODE = 10000
 const ERROR_CODE = 10001
 
 router.post('/share/add', async ctx => {
     let { url, title } = ctx.request.fields;
-    console.log(ctx)
     if (url && title) {
         let datas = await ctx.db.query(`INSERT INTO share (url, title) VALUES (?,?)`, [url, title])
         if (datas) {
@@ -15,7 +15,7 @@ router.post('/share/add', async ctx => {
                 code: SUCCESS_CODE,
                 msg: '新增成功！'
             };
-        }else{
+        } else {
             ctx.body = {
                 data: {},
                 success: false,
@@ -27,24 +27,23 @@ router.post('/share/add', async ctx => {
 });
 
 router.get('/share/list', async ctx => {
-    console.log(111111111)
-        // ctx.set('Access-Control-Allow-Origin','*')
-        let datas = await ctx.db.query(`SELECT * FROM share WHERE isdel=?`, [1])
-        if (datas) {
-            ctx.body = {
-                data: datas,
-                success: true,
-                code: SUCCESS_CODE,
-                msg: '查询成功！'
-            };
-        }else{
-            ctx.body = {
-                data: {},
-                success: false,
-                code: ERROR_CODE,
-                msg: '操作失败！'
-            };
-        }
+    var arg = URL.parse(ctx.request.url, true).query;
+    let datas = await ctx.db.query(`SELECT * FROM share WHERE type=?`, [arg.type])
+    if (datas) {
+        ctx.body = {
+            data: datas,
+            success: true,
+            code: SUCCESS_CODE,
+            msg: '查询成功！'
+        };
+    } else {
+        ctx.body = {
+            data: {},
+            success: false,
+            code: ERROR_CODE,
+            msg: '操作失败！'
+        };
+    }
 });
 
 module.exports = router.routes();

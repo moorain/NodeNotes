@@ -4,7 +4,7 @@ const path = require('path');
 const { md5 } = require('../../libs/common')
 let router = new Router();
 
-// const table = 'banner_table' //admin 要处理的表
+const table = 'share' //admin 要处理的表
 
 function findAdmin(admins, username) {
   let a = null;
@@ -28,42 +28,63 @@ router.post('/login', async ctx => {
     path.resolve(__dirname, '../../admins.json')
   )).toString());
   let admin = findAdmin(admins, username);
-  if(admin &&admin.password == md5(ctx.config.ADMIN_PREFIX + password) ){
+  if (admin && admin.password == md5(ctx.config.ADMIN_PREFIX + password)) {
     ctx.session['admin'] = username; //设置session
     ctx.body = {
       code: 10000,
-      success:true,
+      data: {
+        username,
+        permission: true,
+        userInfo: 'admin'
+      },
+      success: true,
       msg: '登陆成功！'
     }
-  }else{
+  } else {
     ctx.body = {
       code: 10002,
-      success:false,
+      success: false,
+      data: null,
       msg: '用户名或密码错误！'
     }
   }
 });
 
 //校验 （在登陆接口之后）
-router.all('*', async (ctx, next) => {
-  const { HTTP_ROOT } = ctx.config
-  if (ctx.session['admin']) {
-    await next()
-  } else {
-    ctx.body({
-      success:false,
-      code:10004,
-      msg:'当前用户未登陆！'
-    })
-  }
-})
+// router.all('*', async (ctx, next) => {
+//   const { HTTP_ROOT } = ctx.config
+//   if (ctx.session['admin']) {
+//     await next()
+//   } else {
+//     ctx.body({
+//       success:false,
+//       code:10004,
+//       msg:'当前用户未登陆！'
+//     })
+//   }
+// })
 
-// router.post('/share/add', async ctx => {
-//   let { url, title } = ctx.request.fields;
-//   console.log(url,title)
-//   // const { HTTP_ROOT } = ctx.config
-//   // ctx.redirect(`${HTTP_ROOT}/admin/banner`)
-// });
+router.post('/add', async ctx => {
+  let { title, type, content, link } = ctx.request.fields;
+  let datas = await ctx.db.query(`INSERT INTO ${table} (title,type,content,link) VALUES(?,?,?,?)`, [
+    title, type, content, link
+  ])
+  if (datas) {
+    ctx.body={
+      isSuccess: true,
+      code: 10000,
+      data: null,
+      msg: '添加成功！'
+    }
+  }else{
+    ctx.body={
+      isSuccess: false,
+      code: 10002,
+      data: null,
+      msg: '添加失败！'
+    }
+  }
+});
 
 
 // INSERT INTO `share`(`url`, `title`) VALUES ("www.baidu.com","百度")
